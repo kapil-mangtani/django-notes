@@ -1,0 +1,3 @@
+1.While packaging, add the templates for this app in the setting by adding in the TEMPLATE_DIRS path
+e.g. TEMPLATE_DIRS += <your_path>
+2.
