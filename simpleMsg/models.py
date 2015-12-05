@@ -13,12 +13,13 @@ class Base(models.Model):
 class Message(Base):
     title = models.CharField(max_length=255)
     body = models.TextField()
+    favourite = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.body
 
     
-class MessageTag(Base):
+class MessageTag(models.Model):
     tag = models.CharField(max_length=50)
     #manytomany relationship --> one message can have many tags and vice versa
     message = models.ManyToManyField(Message)

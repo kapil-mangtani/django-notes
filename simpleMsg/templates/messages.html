@@ -15,15 +15,17 @@
 		<link rel="stylesheet" href="{% static 'css/default.css' %}">
     </head>
     <body>
+        <div id="cards">
         {% include 'cards.html' %}
+        </div>
         <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
 		    <a class="btn-floating btn-large red">
 		      <i class="large material-icons">mode_edit</i>
 		    </a>
 		    <ul>
 		      <!-- change the material icon to filter_1 or filter_9+ etc to show count -->
-		      <li id="viewAll><a class="btn-floating green"><i class="material-icons">filter</i></a></li>
-		      <li id="add"><a class="btn-floating blue"><i class="material-icons">playlist_add</i></a></li>
+		      <li id="viewAll" onClick="toggleCard(this.id)"><a class="btn-floating green"><i id="viewAllIcon" class="material-icons">filter</i></a></li>
+		      <li id="add" onClick="toggleCard(this.id)"><a class="btn-floating blue"><i class="material-icons">playlist_add</i></a></li>
 		    </ul>
 	    </div>
 
@@ -40,6 +42,7 @@
 	       var writeUrl = "{% url 'add' %}";
 	       var readUrl = "{% url 'get-all-messages' %}";
 	    </script>
+	    <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>
 	

@@ -1,14 +1,25 @@
 from django.views.generic import View
 from simpleMsg.models import Message
-from django.shortcuts import render
+from django.http.response import HttpResponse
+import json
 
 class GetMessages(View):
     """
     Display all the messages for a User
     """
-    template_name = 'messages.html'
     
     def get(self, request):
+        """
+        Retrieves all messages with tags for this user
+        """
         messages = Message.objects.filter(user=request.user)
-        context_dict = {'messages': messages}
-        return render(request, self.template_name, context_dict)
+        data = []
+        for message in messages:
+            data_dict = {'title' : message.title, 'body': message.body}
+            tags = message.messagetag_set.all().values_list('tag', flat=True)
+            #note the list() call below, it is intended not to force evaluation
+            #of the queryset but because django querysets are not serializable 
+            #and hence converted to list
+            data_dict['tags'] = list(tags)
+            data.append(data_dict)
+        return HttpResponse(json.dumps(data))
