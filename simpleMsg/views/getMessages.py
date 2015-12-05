@@ -1,5 +1,5 @@
 from django.views.generic import View
-from simpleMsg.models import Message
+from simpleMsg.models import Message, MessageTag
 from django.http.response import HttpResponse
 import json
 
@@ -23,3 +23,21 @@ class GetMessages(View):
             data_dict['tags'] = list(tags)
             data.append(data_dict)
         return HttpResponse(json.dumps(data))
+    
+    
+    def post(self, request):
+        """
+        This method is intended to serve the purpose of performing searches
+        based on tags
+        """
+        data = json.loads(request.body)
+        search_string = data['search']
+        tag = MessageTag.objects.get(tag=search_string)
+        data = []
+        results = tag.message.filter(user=request.user)
+        for result in results:
+            data_dict = {'title' : result.title, 'body': result.body}
+            data.append(data_dict)
+        
+        return HttpResponse(json.dumps(data))
+        

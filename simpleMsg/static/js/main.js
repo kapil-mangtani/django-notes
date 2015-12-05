@@ -60,7 +60,6 @@ function readAllMsg() {
         beforeSend: function(xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
-        //dataType: "application/json; charset=UTF-8"
         }).done(function(data) {
             var messages = JSON.parse(data);
             console.log(data);
@@ -69,7 +68,8 @@ function readAllMsg() {
                 var tags = message.tags;
                 var tagsHtml = [];
                 for (var j=0; j<tags.length; j++) {
-                    var tagHtml = '<div class="chip">' + tags[i] + '</div>';
+                    console.log(tags[j]);
+                    var tagHtml = '<div class="chip">' + tags[j] + '</div>';
                     tagsHtml += tagHtml;
                 }
                 var messageHtml = '<li class="collection-item avatar">' +
@@ -86,6 +86,9 @@ function readAllMsg() {
         });
 }
 
+function searchForMsg() { 
+}
+
 function createTag(tag) {
     var chipHtml  = '<div class="chip tag-identifier" data-tag=' + tag + '>' + tag + '<i class="material-icons">close</i></div>'
     $("#chips").append(chipHtml);  
@@ -100,7 +103,10 @@ function toggleCard(elementId) {
         $(".collection").empty();
         readAllMsg();
         $("#allMessagesCard").show();
-    } else {   
+    } else if (elementId=="search") {
+        searchForMsg();
+        //show search results
+    { else {   
         $("#newMessageCard").hide();
     }
 
